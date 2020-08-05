@@ -23,7 +23,6 @@ public class DemoApplication {
 
 	}
 
-	@Transactional
 	@Bean
 	CommandLineRunner demo(Domain1Repository domain1Repository, Domain2Repository domain2Repository) {
 		return args -> {
