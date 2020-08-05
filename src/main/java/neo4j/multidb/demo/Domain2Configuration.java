@@ -3,6 +3,7 @@ package neo4j.multidb.demo;
 import org.neo4j.ogm.config.ClasspathConfigurationSource;
 import org.neo4j.ogm.config.ConfigurationSource;
 import org.neo4j.ogm.session.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
@@ -13,6 +14,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableNeo4jRepositories(basePackages = "neo4j.multidb.demo.repository2", sessionFactoryRef = "sessionFactory2", transactionManagerRef = "transactionManager2")
 @EnableTransactionManagement
 public class Domain2Configuration {
+    @Autowired
+    private Db2ConfigProperties configProperties;
+
     @Bean
     public SessionFactory sessionFactory2() {
         // with domain entity base package(s)
@@ -21,8 +25,11 @@ public class Domain2Configuration {
 
     @Bean
     public org.neo4j.ogm.config.Configuration configuration2() {
-        ConfigurationSource properties = new ClasspathConfigurationSource("db2.properties");
-        return new org.neo4j.ogm.config.Configuration.Builder(properties).build();
+        return new org.neo4j.ogm.config.Configuration.Builder()
+                .database(configProperties.getDatabase())
+                .uri(configProperties.getUri())
+                .credentials(configProperties.getUsername(), configProperties.getPassword())
+                .build();
     }
 
     @Bean

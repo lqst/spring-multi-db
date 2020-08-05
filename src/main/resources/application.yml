@@ -1,0 +1,14 @@
+spring:
+  application:
+      name: demo
+  data:
+    neo4j1:
+      uri: neo4j://localhost
+      username: neo4j
+      password: test1234
+      database: db1
+    neo4j2:
+      uri: neo4j://localhost
+      username: neo4j
+      password: test1234
+      database: db2
